@@ -20,6 +20,7 @@ class PageService extends BaseService
 
 
     protected function saveHtmlFile($n8PageId,$html){
+        $this->mkdir($this->htmlPath);
         $fileName = $this->getHtmlFile($n8PageId);
         $html = stripslashes(base64_decode($html));
         file_put_contents($fileName,$html);
@@ -33,6 +34,8 @@ class PageService extends BaseService
      * todo
      */
     protected function createReviewImg($n8PageId,$htmlFileName){
+        $this->mkdir($this->reviewImgPath);
+
         return '';
     }
 
@@ -40,6 +43,7 @@ class PageService extends BaseService
     protected function getHtmlFile($n8PageId){
         return $this->htmlPath.'/'.$n8PageId.'.html';
     }
+
 
     protected function getPreviewImg($n8PageId){
         return $this->reviewImgPath.'/'.$n8PageId.'.png';
@@ -52,4 +56,13 @@ class PageService extends BaseService
         if(file_exists($fileName))   unlink($fileName);
         if(file_exists($imgName))   unlink($imgName);
     }
+
+
+    protected function mkdir($dir, $mode = 0777)
+    {
+        if(!file_exists($dir)){
+            mkdir($dir,$mode,true);
+        }
+    }
+
 }
