@@ -3,6 +3,7 @@ namespace App\Http\Controllers\Admin;
 
 
 use App\Common\Enums\StatusEnum;
+use App\Common\Helpers\Functions;
 use App\Common\Services\SystemApi\UnionApiService;
 use App\Models\AdPageModel;
 use App\Services\AdPageService;
@@ -91,15 +92,17 @@ class AdPageController extends BaseController
     /**
      * 保存验证规则
      */
-    public function saveValidRule(){
-        $this->curdService->addField('name')->addValidRule('required');
-        $this->curdService->addField('title')->addValidRule('required');
-        $this->curdService->addField('android_channel_id')->addValidRule('required');
-        $this->curdService->addField('ios_channel_id')->addValidRule('required');
-        $this->curdService->addField('html')->addValidRule('required');
-        $this->curdService->addField('status')
-            ->addValidEnum(StatusEnum::class)
-            ->addDefaultValue(StatusEnum::ENABLE);
+    public function saveValidRule($req){
+
+        $this->validRule($req,[
+            'name'    =>  'required',
+            'title'   =>  'required',
+            'android_channel_id' =>  'required',
+            'ios_channel_id' =>  'required',
+            'html'     =>  'required',
+            'status'   =>  'required',
+        ]);
+        Functions::hasEnum(StatusEnum::class,$req['status']);
 
     }
 
@@ -113,10 +116,9 @@ class AdPageController extends BaseController
      */
     public function create(Request $request){
         $requestData = $request->all();
-        $this->curdService->setRequestData($requestData);
-        $this->saveValidRule();
-        $requestData['admin_id'] = $this->adminUser['admin_user']['id'];
+        $this->saveValidRule($requestData);
 
+        $requestData['admin_id'] = $this->adminUser['admin_user']['id'];
         $adPage = (new AdPageService())->create($requestData);
 
         return $this->ret($adPage, $adPage);
@@ -127,16 +129,25 @@ class AdPageController extends BaseController
 
 
     /**
-     * 更新预处理
+     * @param Request $request
+     * @return mixed
+     * @throws \App\Common\Tools\CustomException
+     * 更新
      */
-    public function updatePrepare(){
-        $this->saveValidRule();
-        $this->curdService->saveBefore(function(){
+    public function update(Request $request){
+        $requestData = $request->all();
+        $this->validRule($requestData,[
+            'id'    =>  'required'
+        ]);
+        $this->saveValidRule($requestData);
 
-            if(!$this->isAdmin()){
-                unset($this->curdService->handleData['admin_id']);
-            }
-        });
+        if(!$this->isAdmin()){
+            unset($requestData['admin_id']);
+        }
+
+        $adPage = (new AdPageService())->update($requestData['id'],$requestData);
+        return $this->ret($adPage, $adPage);
+
     }
 
 }

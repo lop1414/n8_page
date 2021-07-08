@@ -21,12 +21,16 @@ class AdPageService extends PageService
             $page = new PageModel();
             $page->type = PageTypeEnums::AD;
             $page->save();
+
+
+            $this->saveHtmlFile($page->n8_page_id,$data['html']);
+            $this->createReviewImg($page->n8_page_id,$this->getHtmlFile($page->n8_page_id));
+
             // 创建ad page
             $adPage = new AdPageModel();
             $adPage->n8_page_id = $page->n8_page_id;
             $adPage->name = $data['name'];
             $adPage->title = $data['title'];
-            $adPage->preview_url = '';
             $adPage->android_channel_id = $data['android_channel_id'];
             $adPage->ios_channel_id = $data['ios_channel_id'];
             $adPage->status = $data['status'];
@@ -36,19 +40,61 @@ class AdPageService extends PageService
             // 创建page content
             $pageContent = new PageContentModel();
             $pageContent->n8_page_id = $page->n8_page_id;
-            $pageContent->content = $data['content'];
+            $pageContent->content = $data['content'] ?? '';
             $pageContent->save();
 
-            $this->saveHtmlFile($page->n8_page_id,$data['content']);
 
             DB::commit();
 
             return $adPage;
         }catch (CustomException $e){
             DB::rollBack();
+            $this->delHtmlFileAndPreviewImg($page->n8_page_id);
             throw $e;
         }catch (\Exception $e){
             DB::rollBack();
+            $this->delHtmlFileAndPreviewImg($page->n8_page_id);
+            throw $e;
+        }
+    }
+
+
+    public function update($id,$data){
+        try{
+            DB::beginTransaction();
+
+            // ad page
+            $adPage = (new AdPageModel())->where('id',$id)->first();
+
+            $this->saveHtmlFile($adPage->n8_page_id,$data['html']);
+            $this->createReviewImg($adPage->n8_page_id,$this->getHtmlFile($adPage->n8_page_id));
+
+            $adPage->name = $data['name'];
+            $adPage->title = $data['title'];
+            $adPage->android_channel_id = $data['android_channel_id'];
+            $adPage->ios_channel_id = $data['ios_channel_id'];
+            $adPage->status = $data['status'];
+            if(isset($data['admin_id'])){
+                $adPage->admin_id = $data['admin_id'];
+            }
+            $adPage->save();
+
+            //page content
+            $pageContent = (new PageContentModel())->where('n8_page_id',$adPage->n8_page_id)->first();
+            $pageContent->content = $data['content'] ?? '';
+            $pageContent->save();
+
+
+            DB::commit();
+
+            return $adPage;
+        }catch (CustomException $e){
+            DB::rollBack();
+            $this->delHtmlFileAndPreviewImg($adPage->n8_page_id);
+            throw $e;
+        }catch (\Exception $e){
+            DB::rollBack();
+            $this->delHtmlFileAndPreviewImg($adPage->n8_page_id);
             throw $e;
         }
     }
