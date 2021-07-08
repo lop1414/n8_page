@@ -7,6 +7,7 @@ use App\Common\Helpers\Functions;
 use App\Common\Services\SystemApi\UnionApiService;
 use App\Models\AdPageModel;
 use App\Services\AdPageService;
+use App\Services\PageService;
 use Illuminate\Http\Request;
 
 class AdPageController extends BaseController
@@ -56,6 +57,7 @@ class AdPageController extends BaseController
         $this->curdService->selectQueryAfter(function(){
             $map = $this->getAdminUserMap();
             $unionService = new UnionApiService();
+            $pageService = new PageService();
             foreach ($this->curdService->responseData['list'] as $item){
                 $item->admin_name = $item->admin_id ? $map[$item->admin_id]['name'] : '';
                 $item->android_channel = $unionService->apiReadChannel(['id'=>$item->android_channel_id]);
@@ -63,6 +65,7 @@ class AdPageController extends BaseController
                 if($item->android_channel_id != $item->ios_channel_id){
                     $item->ios_channel = $unionService->apiReadChannel(['id'=>$item->ios_channel_id]);
                 }
+                $item->url = $pageService->getUrl($item->n8_page_id);
             }
         });
     }
@@ -78,11 +81,13 @@ class AdPageController extends BaseController
         $this->curdService->findAfter(function(){
             $this->curdService->responseData->page_content;
             $unionService = new UnionApiService();
+            $pageService = new PageService();
             $this->curdService->responseData->android_channel = $unionService->apiReadChannel(['id'=>$this->curdService->responseData->android_channel_id]);
             $this->curdService->responseData->ios_channel = $this->curdService->responseData->android_channel;
             if($this->curdService->responseData->android_channel_id != $this->curdService->responseData->ios_channel_id){
                 $this->curdService->responseData->ios_channel = $unionService->apiReadChannel(['id'=>$this->curdService->responseData->ios_channel_id]);
             }
+            $this->curdService->responseData->url = $pageService->getUrl($this->curdService->responseData->n8_page_id);
         });
     }
 
