@@ -104,6 +104,7 @@ class AdPageController extends BaseController
             'title'   =>  'required',
             'android_channel_id' =>  'required',
             'ios_channel_id' =>  'required',
+            'multi_platform_channel_id' =>  'present',
             'html'     =>  'required',
             'status'   =>  'required',
         ]);

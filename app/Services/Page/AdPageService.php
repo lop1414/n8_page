@@ -33,6 +33,7 @@ class AdPageService extends PageService
             $adPage->title = $data['title'];
             $adPage->android_channel_id = $data['android_channel_id'];
             $adPage->ios_channel_id = $data['ios_channel_id'];
+            $adPage->multi_platform_channel_id = $data['multi_platform_channel_id'];
             $adPage->status = $data['status'];
             $adPage->admin_id = $data['admin_id'];
             $adPage->save();
@@ -73,6 +74,7 @@ class AdPageService extends PageService
             $adPage->title = $data['title'];
             $adPage->android_channel_id = $data['android_channel_id'];
             $adPage->ios_channel_id = $data['ios_channel_id'];
+            $adPage->multi_platform_channel_id = $data['multi_platform_channel_id'];
             $adPage->status = $data['status'];
             if(isset($data['admin_id'])){
                 $adPage->admin_id = $data['admin_id'];
