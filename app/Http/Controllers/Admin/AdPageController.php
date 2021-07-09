@@ -87,6 +87,12 @@ class AdPageController extends BaseController
             if($this->curdService->responseData->android_channel_id != $this->curdService->responseData->ios_channel_id){
                 $this->curdService->responseData->ios_channel = $unionService->apiReadChannel(['id'=>$this->curdService->responseData->ios_channel_id]);
             }
+            $this->curdService->responseData->multi_platform_channel = [];
+            if(!empty($this->curdService->responseData->multi_platform_channel_id)){
+                $this->curdService->responseData->multi_platform_channel = $unionService->apiReadMultiPlatChannelById($this->curdService->responseData->multi_platform_channel_id);
+
+            }
+
             $this->curdService->responseData->url = $pageService->getUrl($this->curdService->responseData->n8_page_id);
         });
     }
