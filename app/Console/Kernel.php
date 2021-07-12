@@ -27,6 +27,11 @@ class Kernel extends ConsoleKernel
      */
     protected function schedule(Schedule $schedule)
     {
-        //
+        //创建分表
+        $schedule->command('create_table')->cron('0 0 1,15 * *');
+
+        //队列数据数据入库
+        $schedule->command("queue_data_to_db --enum=PAGE_SHOW ")->cron('* * * * *');
+
     }
 }

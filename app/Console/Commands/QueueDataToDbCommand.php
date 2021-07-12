@@ -47,7 +47,7 @@ class QueueDataToDbCommand extends BaseCommand
         $this->lockRun(function () use ($queue){
             $action = Functions::camelize($queue);
             (new QueueDataToDbService())->$action();
-        },$key,60*60,['log' => true]);
+        },$key,60*60*2,['log' => true]);
     }
 
 
