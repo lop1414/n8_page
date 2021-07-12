@@ -2,6 +2,8 @@
 
 namespace App\Console;
 
+use App\Console\Commands\CreateTableCommand;
+use App\Console\Commands\QueueDataToDbCommand;
 use Illuminate\Console\Scheduling\Schedule;
 use Laravel\Lumen\Console\Kernel as ConsoleKernel;
 
@@ -13,7 +15,8 @@ class Kernel extends ConsoleKernel
      * @var array
      */
     protected $commands = [
-        //
+        CreateTableCommand::class,
+        QueueDataToDbCommand::class
     ];
 
     /**

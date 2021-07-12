@@ -22,7 +22,7 @@ class PageService extends BaseService
     protected function saveHtmlFile($n8PageId,$html){
         $this->mkdir($this->htmlPath);
         $fileName = $this->getHtmlFile($n8PageId);
-        $html = stripslashes(base64_decode($html));
+        $html = stripslashes(urldecode(base64_decode($html)));
         file_put_contents($fileName,$html);
         return true;
     }

@@ -15,7 +15,16 @@ $router->get('/', function () use ($router) {
     return $router->app->version();
 });
 
+// 公开接口
+$router->group([
+    'prefix' => 'open',
+    'middleware' => ['access_control_allow_origin']
+], function () use ($router) {
 
+    $router->group(['prefix' => 'page_show'], function () use ($router) {
+        $router->get('ad_page', 'Open\PageShowController@adPage');// 推广页面pv
+    });
+});
 
 // 后台
 $router->group([
