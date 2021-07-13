@@ -28,17 +28,19 @@ class PageService extends BaseService
     }
 
 
+
     /**
+     * @param $n8PageId
      * @param $base64ImageContent
-     * @return string
+     * @return false|string
      */
     public function createReviewImg($n8PageId,$base64ImageContent){
         $this->mkdir($this->reviewImgPath);
 
         if (preg_match('/^(data:\s*image\/(\w+);base64,)/', $base64ImageContent, $result)){
             $type = $result[2];
-
 //            $new_file =  $this->reviewImgPath.'/'.$n8PageId.'.'.$type;
+
             $new_file =  $this->getPreviewImg($n8PageId);
 
             if (file_put_contents($new_file, base64_decode(str_replace($result[1], '', $base64ImageContent)))){
