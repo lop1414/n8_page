@@ -24,7 +24,7 @@ class AdPageService extends PageService
 
 
             $this->saveHtmlFile($page->n8_page_id,$data['html']);
-            $this->createReviewImg($page->n8_page_id,$this->getHtmlFile($page->n8_page_id));
+            $this->createReviewImg($page->n8_page_id,$data['review_img']);
 
             // 创建ad page
             $adPage = new AdPageModel();

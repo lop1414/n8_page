@@ -29,14 +29,26 @@ class PageService extends BaseService
 
 
     /**
-     * @param $htmlFileName
+     * @param $base64ImageContent
      * @return string
-     * todo
      */
-    protected function createReviewImg($n8PageId,$htmlFileName){
+    public function createReviewImg($n8PageId,$base64ImageContent){
         $this->mkdir($this->reviewImgPath);
 
-        return '';
+        if (preg_match('/^(data:\s*image\/(\w+);base64,)/', $base64ImageContent, $result)){
+            $type = $result[2];
+
+//            $new_file =  $this->reviewImgPath.'/'.$n8PageId.'.'.$type;
+            $new_file =  $this->getPreviewImg($n8PageId);
+
+            if (file_put_contents($new_file, base64_decode(str_replace($result[1], '', $base64ImageContent)))){
+                return '/'.$new_file;
+            }else{
+                return false;
+            }
+        }else {
+            return false;
+        }
     }
 
 
