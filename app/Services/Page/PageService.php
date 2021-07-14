@@ -2,6 +2,7 @@
 
 namespace App\Services;
 
+use App\Common\Enums\AdvClickSourceEnum;
 use App\Common\Helpers\Functions;
 use App\Common\Services\BaseService;
 use App\Enums\PageTypeEnums;
@@ -71,7 +72,9 @@ class PageService extends BaseService
     protected function saveHtmlFile($n8PageId,$html){
         $this->mkdir($this->htmlPath);
         $fileName = $this->getHtmlFile($n8PageId);
-        $html = str_replace('__N8_PAGE_ID__',$n8PageId,stripslashes(urldecode(base64_decode($html))));
+        $html = stripslashes(urldecode(base64_decode($html)));
+        $html = str_replace('__N8_PAGE_ID__',$n8PageId,$html);
+        $html = str_replace('__CLICK_SOURCE__',AdvClickSourceEnum::N8_AD_PAGE,$html);
         file_put_contents($fileName,$html);
         return true;
     }
