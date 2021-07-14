@@ -110,8 +110,8 @@ class AdPageController extends BaseController
         $this->validRule($req,[
             'name'    =>  'required',
             'title'   =>  'required',
-            'android_channel_id' =>  'required',
-            'ios_channel_id' =>  'required',
+            'android_channel_id'        =>  'required',
+            'ios_channel_id'            =>  'required',
             'multi_platform_channel_id' =>  'present',
             'html'     =>  'required',
             'status'   =>  'required',
