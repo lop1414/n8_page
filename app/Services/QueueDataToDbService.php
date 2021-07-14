@@ -20,6 +20,7 @@ class QueueDataToDbService extends BaseService
             $agent = new Agent();
             $agent->setUserAgent($data['ua']);
             $data['platform'] = $agent->isiOS() ? PlatformEnum::IOS : PlatformEnum::ANDROID;
+            $data['created_at'] = date('Y-m-d H:i:s');
             (new ShowLogModel())->setTableNameWithMonth($data['time'])->create($data);
         });
 
