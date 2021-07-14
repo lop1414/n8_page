@@ -68,7 +68,7 @@ class AdPageService extends PageService
             $adPage = (new AdPageModel())->where('id',$id)->first();
 
             $this->saveHtmlFile($adPage->n8_page_id,$data['html']);
-            $this->createReviewImg($page->n8_page_id,$data['review_img']);
+            $this->createReviewImg($adPage->n8_page_id,$data['review_img']);
 
             $this->createReviewImg($adPage->n8_page_id,$this->getHtmlFile($adPage->n8_page_id));
 
