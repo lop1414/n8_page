@@ -11,7 +11,7 @@
  Target Server Version : 50731
  File Encoding         : 65001
 
- Date: 08/07/2021 11:41:59
+ Date: 14/07/2021 11:01:31
 */
 
 SET NAMES utf8mb4;
@@ -28,6 +28,7 @@ CREATE TABLE `ad_pages` (
   `title` varchar(60) NOT NULL COMMENT '标题',
   `android_channel_id` int(11) NOT NULL COMMENT '安卓渠道id',
   `ios_channel_id` int(11) NOT NULL COMMENT 'iOS渠道id',
+  `multi_platform_channel_id` int(11) NOT NULL COMMENT '多平台渠道id',
   `status` varchar(50) NOT NULL COMMENT '状态',
   `admin_id` int(11) NOT NULL DEFAULT '0' COMMENT '管理员id',
   `created_at` timestamp NULL DEFAULT NULL COMMENT '创建时间',

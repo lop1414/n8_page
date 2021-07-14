@@ -31,7 +31,7 @@ class Kernel extends ConsoleKernel
         $schedule->command('create_table')->cron('0 0 1,15 * *');
 
         //队列数据数据入库
-        $schedule->command("queue_data_to_db --enum=PAGE_SHOW ")->cron('* * * * *');
+        $schedule->command("queue_data_to_db --queue=PAGE_SHOW")->cron('* * * * *');
 
     }
 }
