@@ -138,7 +138,7 @@ class PageService extends BaseService
         foreach ($companyList as $company){
             $arr[] = [
                 'name'  => $company['name'],
-                'url'   => 'https://storage-n8-page.'.$company['domain'].'/page/'.$n8PageId.'.html'
+                'url'   => $company['page_url'].'/page/'.$n8PageId.'.html'
             ];
         }
         return $arr;
