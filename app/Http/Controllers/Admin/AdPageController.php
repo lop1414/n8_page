@@ -65,7 +65,7 @@ class AdPageController extends BaseController
                 if($item->android_channel_id != $item->ios_channel_id){
                     $item->ios_channel = $unionService->apiReadChannel(['id'=>$item->ios_channel_id]);
                 }
-                $item->url = $pageService->getUrl($item->n8_page_id);
+                $item->url = $pageService->getUrls($item->n8_page_id);
                 $item->preview_img = $pageService->getPreviewImgUrl($item->n8_page_id);
             }
         });
@@ -94,7 +94,7 @@ class AdPageController extends BaseController
 
             }
 
-            $this->curdService->responseData->url = $pageService->getUrl($this->curdService->responseData->n8_page_id);
+            $this->curdService->responseData->url = $pageService->getUrls($this->curdService->responseData->n8_page_id);
             $this->curdService->responseData->preview_img = $pageService->getPreviewImgUrl($this->curdService->responseData->n8_page_id);
         });
     }

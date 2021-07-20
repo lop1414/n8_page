@@ -132,8 +132,16 @@ class PageService extends BaseService
     }
 
 
-    public function getUrl($n8PageId){
-        return env('APP_STORAGE_URL').'/page/'.$n8PageId.'.html';
+    public function getUrls($n8PageId){
+        $companyList = config('common.company');
+        $arr = [];
+        foreach ($companyList as $company){
+            $arr[] = [
+                'name'  => $company['name'],
+                'url'   => 'https://storage-n8-page'.$company['domain'].'/page/'.$n8PageId.'.html'
+            ];
+        }
+        return $arr;
     }
 
     public function getPreviewImgUrl($n8PageId){
