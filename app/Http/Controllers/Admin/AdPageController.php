@@ -115,6 +115,7 @@ class AdPageController extends BaseController
             'multi_platform_channel_id' =>  'present',
             'html'     =>  'required',
             'status'   =>  'required',
+            'structure_version'   =>  'required',
         ]);
         Functions::hasEnum(StatusEnum::class,$req['status']);
 
