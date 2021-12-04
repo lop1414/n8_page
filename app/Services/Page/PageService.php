@@ -33,7 +33,7 @@ class PageService extends BaseService
     protected function makeGlobalPage($type){
         Functions::hasEnum(PageTypeEnums::class,$type);
         $page = new PageModel();
-        $page->type = PageTypeEnums::NORMAL;
+        $page->type = $type;
         $page->save();
         return $page;
     }
