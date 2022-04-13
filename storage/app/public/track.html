@@ -6,24 +6,25 @@
 		<title>联调落地页</title>
 	</head>
 	<body>
-		
+
 		<h1 style="text-align: center;">联调落地页</h1>
-		
+
 	</body>
+
 	<script>
 		const data = {};
 		location.search.replace('?','').split('&').forEach(s=>{
 			const [k,v] = s.split('=');
 			data[k] = v;
 		})
-		if(data.info) data.info = JSON.parse(atob(data.info))
+		if(data.info) data.info = JSON.parse(atob(decodeURIComponent(data.info)))
 		console.log(data)
-		
+
 		const {url,param} = data.info;
-		
-		
+
+
 		Object.entries(data).forEach(([k,v]) => k !== 'info' && (param[k] = v) );
-		
+
 		fetch(`${url}?${ Object.entries(param).map(([k,v])=> `${k}=${v}` ).join('&')  }`);
 	</script>
 </html>
