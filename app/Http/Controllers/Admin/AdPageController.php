@@ -71,6 +71,12 @@ class AdPageController extends BaseController
         });
     }
 
+    public function getPrepare(){
+        $this->curdService->selectQueryBefore(function (){
+            $this->dataFilter();
+        });
+    }
+
 
 
 

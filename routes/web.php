@@ -35,6 +35,7 @@ $router->group([
     $router->group(['prefix' => 'ad_page'], function () use ($router) {
 
         $router->post('select', 'Admin\AdPageController@select');
+        $router->post('get', 'Admin\AdPageController@get');
         $router->post('read', 'Admin\AdPageController@read');
         $router->post('enable', 'Admin\AdPageController@enable');
         $router->post('disable', 'Admin\AdPageController@disable');
