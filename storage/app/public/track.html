@@ -20,11 +20,11 @@
 		if(data.info) data.info = JSON.parse(atob(decodeURIComponent(data.info)))
 		console.log(data)
 
-		const {url,param} = data.info;
-
+		const {url,param,page} = data.info;
 
 		Object.entries(data).forEach(([k,v]) => k !== 'info' && (param[k] = v) );
 
-		fetch(`${url}?${ Object.entries(param).map(([k,v])=> `${k}=${v}` ).join('&')  }`);
+		fetch(`${url}?${ Object.entries(param).map(([k,v])=> `${k}=${v}`).join('&')}`);
+        window.location.href=`${page}?${ Object.entries(param).map(([k,v])=> `${k}=${v}`).join('&')}`;
 	</script>
 </html>
