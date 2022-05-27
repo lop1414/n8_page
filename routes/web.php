@@ -26,6 +26,21 @@ $router->group([
     });
 });
 
+// 后台公共权限接口
+$router->group([
+    // 路由中间件
+    'middleware' => ['center_login_auth', 'access_control_allow_origin'],
+    // 前缀
+    'prefix' => 'admin'
+], function () use ($router) {
+    // 文件
+    $router->group(['prefix' => 'file', 'middleware' => ['admin_request_log']], function () use ($router) {
+        $router->post('upload', 'Admin\FileController@upload');
+        $router->post('read', 'Admin\FileController@read');
+    });
+});
+
+
 // 后台
 $router->group([
     'prefix' => 'admin',
