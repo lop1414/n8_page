@@ -6,6 +6,7 @@ use App\Common\Enums\StatusEnum;
 use App\Common\Helpers\Functions;
 use App\Common\Services\SystemApi\UnionApiService;
 use App\Models\AdPageModel;
+use App\Models\PageContentModel;
 use App\Services\AdPageService;
 use App\Services\PageService;
 use Illuminate\Http\Request;
@@ -169,6 +170,41 @@ class AdPageController extends BaseController
         $adPage = (new AdPageService())->update($requestData['id'],$requestData);
         return $this->ret($adPage, $adPage);
 
+    }
+
+
+    /**
+     * 推送
+     * @param Request $request
+     * @return mixed
+     * @throws \App\Common\Tools\CustomException
+     */
+    public function pushGive(Request $request){
+        $requestData = $request->all();
+        $this->validRule($requestData,[
+            'n8_page_id' =>  'required',
+            'admin_id'   =>  'required',
+        ]);
+       return $this->copy($requestData['n8_page_id'],$requestData['admin_id']);
+    }
+
+
+
+    /**
+     * 复制
+     * @param $n8pageId
+     * @param int $adminId
+     * @return mixed
+     * @throws \App\Common\Tools\CustomException
+     */
+    protected function copy($n8pageId, int $adminId = 0){
+        $data['admin_id'] = $this->adminUser['admin_user']['id'];
+        $data = (new AdPageModel())->where('n8_page_id',$n8pageId)->first()->toArray();
+        $data['content'] = (new PageContentModel())->where('n8_page_id',$n8pageId)->first()->content;
+        $data['html'] = '推送页面需重新编辑';
+        $data['admin_id'] = $adminId ?: $this->adminUser['admin_user']['id'];
+        $adPage = (new AdPageService())->create($data);
+        return $this->ret($adPage, $adPage);
     }
 
 }

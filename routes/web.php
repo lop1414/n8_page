@@ -56,5 +56,6 @@ $router->group([
         $router->post('disable', 'Admin\AdPageController@disable');
         $router->post('create', 'Admin\AdPageController@create');
         $router->post('update', 'Admin\AdPageController@update');
+        $router->post('push_give', 'Admin\AdPageController@pushGive');
     });
 });
